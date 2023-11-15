@@ -12,25 +12,25 @@ void sha1_transform(uint32_t state[5], const unsigned char buffer[SHA1_BLOCK_SIZ
         0x5A827999, 0x6ED9EBA1, 0x8F1BBCDC, 0xCA62C1D6
     };
 
-    // Initialize variables
+    
     a = state[0];
     b = state[1];
     c = state[2];
     d = state[3];
     e = state[4];
 
-    // Copy the buffer into the W array
+    
     for (i = 0; i < 16; ++i) {
         w[i] = (buffer[i * 4] << 24) | (buffer[i * 4 + 1] << 16) | (buffer[i * 4 + 2] << 8) | buffer[i * 4 + 3];
     }
 
-    // Extend the W array
+    
     for (i = 16; i < 80; ++i) {
         w[i] = (w[i - 3] ^ w[i - 8] ^ w[i - 14] ^ w[i - 16]);
         w[i] = (w[i] << 1) | (w[i] >> 31);
     }
 
-    // Main loop
+    
     for (i = 0; i < 80; ++i) {
         if (i < 20) {
             temp = (a << 5) + ((b & c) | ((~b) & d)) + e + w[i] + k[0];
@@ -49,7 +49,7 @@ void sha1_transform(uint32_t state[5], const unsigned char buffer[SHA1_BLOCK_SIZ
         a = temp;
     }
 
-    // Update state
+  
     state[0] += a;
     state[1] += b;
     state[2] += c;
@@ -84,7 +84,7 @@ void sha1(const char *message, unsigned char digest[SHA1_DIGEST_SIZE]) {
         }
     }
 
-    // Append the message length in bits at the end of the buffer
+   
     buffer[chunk_count * 64 - 8] = (total_length >> 56) & 0xFF;
     buffer[chunk_count * 64 - 7] = (total_length >> 48) & 0xFF;
     buffer[chunk_count * 64 - 6] = (total_length >> 40) & 0xFF;
